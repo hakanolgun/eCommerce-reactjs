@@ -17,7 +17,6 @@ function Products() {
     getNextPageParam: (lastGroup, allGroups) => {
       const morePagesExist = lastGroup?.length === 12;
       //backend'de controller/product/index.js'de limit de 12 olmalı ki çalışsın
-      //ben api'den aldığım için :(
 
       if (!morePagesExist) {
         return;
