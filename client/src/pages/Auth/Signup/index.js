@@ -7,13 +7,17 @@ import {
   FormLabel,
   Input,
   Button,
+  Alert,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import validationSchema from "./validations";
-
+import { useAuth } from "../../../contexts/AuthContext";
 import { fetchRegister } from "../../../api";
 
 function Signup() {
+
+  const { login } = useAuth();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -27,8 +31,13 @@ function Signup() {
           email: values.email,
           password: values.password,
         });
+
+        login(registerResponse);
         console.log(registerResponse);
-      } catch (e) {}
+      } catch (e) {
+        bag.setErrors({ genereal: e.response.data.message });
+      }
+      // console.log(values);
     },
   });
 
@@ -38,6 +47,11 @@ function Signup() {
         <Box pt={10}>
           <Box textAlign="center">
             <Heading>Sign Up</Heading>
+          </Box>
+          <Box my={5}>
+            {formik.errors.general && (
+              <Alert status="error">{formik.errors.general}</Alert>
+            )}
           </Box>
           <Box my={5} textAlign="left">
             <form onSubmit={formik.handleSubmit}>

@@ -13,8 +13,6 @@ function ProductDetail() {
     fetchProduct(product_id)
   );
 
-  console.log("myproductid=", product_id);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -23,12 +21,17 @@ function ProductDetail() {
     return <div>Error.</div>;
   }
 
-  console.log("mydata", data);
-  console.log(data[product_id]);
+  const myProductArray = data.filter(function (item) {
+    return Number(item.id) === Number(product_id);
+  });
+
+  const myProduct = myProductArray[0];
+
+  console.log("myproduct", myProduct);
 
   const images = [
     {
-      original: data[product_id].image,
+      original: myProduct.image,
     },
     {
       original: "https://picsum.photos/id/1015/1000/600/",
@@ -38,21 +41,19 @@ function ProductDetail() {
     },
   ];
 
-  console.log("images", images);
-
   return (
     <div className={styles.productDetailContainerDiv}>
       <Button colorScheme="pink" ml="6">
         Add to Basket
       </Button>
       <Text as="h2" fontSize="2xl" textAlign="center" marginBlock="10">
-        {data[product_id].title}
+        {myProduct.title}
       </Text>
 
       <Box>
         <ImageGallery items={images}></ImageGallery>
       </Box>
-      <p className={styles.description}>{data[product_id].description}</p>
+      <p className={styles.description}>{myProduct.description}</p>
     </div>
   );
 }
