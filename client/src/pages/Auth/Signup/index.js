@@ -30,12 +30,12 @@ function Signup() {
       try {
         const registerResponse = await fetchRegister({
           email: values.email,
-          password: values.password,
+          password: values.password
         });
         login(registerResponse);
         console.log("register response is: ", registerResponse);
       } catch (e) {
-        console.log("error oluştu");
+        console.log("error oluştu", e);
         bag.setErrors({ general: e.response.data.message });
       }
       console.log("signup values", values);
