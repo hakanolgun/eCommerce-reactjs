@@ -14,8 +14,9 @@ import validationSchema from "./validations";
 import { useAuth } from "../../../contexts/AuthContext";
 import { fetchRegister } from "../../../api";
 
-function Signup() {
+console.log("registerdan gelen", fetchRegister);
 
+function Signup() {
   const { login } = useAuth();
 
   const formik = useFormik({
@@ -31,13 +32,13 @@ function Signup() {
           email: values.email,
           password: values.password,
         });
-
         login(registerResponse);
-        console.log(registerResponse);
+        console.log("register response is: ", registerResponse);
       } catch (e) {
-        bag.setErrors({ genereal: e.response.data.message });
+        console.log("error oluştu");
+        bag.setErrors({ general: e.response.data.message });
       }
-      // console.log(values);
+      console.log("signup values", values);
     },
   });
 
