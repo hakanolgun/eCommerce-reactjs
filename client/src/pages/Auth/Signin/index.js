@@ -12,10 +12,9 @@ import {
 import { useFormik } from "formik";
 import validationSchema from "./validations";
 import { useAuth } from "../../../contexts/AuthContext";
-import { fetchRegister } from "../../../api";
+import { fetchLogin } from "../../../api";
 
-function Signin() {
-
+function Signin({ history }) {
   const { login } = useAuth();
 
   const formik = useFormik({
@@ -26,18 +25,16 @@ function Signin() {
     validationSchema,
     onSubmit: async (values, bag) => {
       try {
-        const registerResponse = await fetchRegister({
+        const loginResponse = await fetchLogin({
           email: values.email,
           password: values.password,
         });
-
-        login(registerResponse);
-        console.log(registerResponse);
+        login(loginResponse);
+        history.push("/profile");
       } catch (e) {
-        bag.setErrors({ genereal: e.response.data.message });
-        console.log("error oluştu")
+        console.log("error oluştu", e);
+        bag.setErrors({ general: e.response.data.message });
       }
-      // console.log(values);
     },
   });
 
@@ -76,7 +73,6 @@ function Signin() {
                   isInvalid={formik.touched.password && formik.errors.password}
                 />
               </FormControl>
-
 
               <Button mt="4" width="full" type="submit">
                 Sign In

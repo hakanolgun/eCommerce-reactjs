@@ -5,9 +5,11 @@ import { fetchProduct } from "../../api";
 import { Box, Text, Button } from "@chakra-ui/react";
 import ImageGallery from "react-image-gallery";
 import styles from "./styles.module.css";
+import { useBasket } from "../../contexts/BasketContext";
 
 function ProductDetail() {
   const { product_id } = useParams();
+  const { addToBasket, items } = useBasket();
 
   const { isLoading, isError, data } = useQuery(["product", product_id], () =>
     fetchProduct(product_id)
@@ -27,7 +29,14 @@ function ProductDetail() {
 
   const myProduct = myProductArray[0];
 
-  console.log("myproduct", myProduct);
+  
+  console.log("data", data);
+  console.log("items", items);
+  
+  const findBasketItem = items[0].find((item) => {
+    return Number(item.id) === Number(product_id);
+  });
+
 
   const images = [
     {
@@ -43,8 +52,8 @@ function ProductDetail() {
 
   return (
     <div className={styles.productDetailContainerDiv}>
-      <Button colorScheme="pink" ml="6">
-        Add to Basket
+      <Button colorScheme={findBasketItem ? "pink" : "green"} ml="6" onClick={() => addToBasket(data, findBasketItem)}>
+        {findBasketItem ? "Remove from basket" : "Add to Basket"}
       </Button>
       <Text as="h2" fontSize="2xl" textAlign="center" marginBlock="10">
         {myProduct.title}

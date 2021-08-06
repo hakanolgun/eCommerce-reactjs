@@ -4,6 +4,7 @@ import Boom from "boom";
 import redis from "../clients/redis";
 
 const signAccessToken = (data) => {
+
 	return new Promise((resolve, reject) => {
 		const payload = {
 			...data,
