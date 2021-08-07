@@ -1,24 +1,37 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 
 const BasketContext = createContext();
 
+const defaultBasket = JSON.parse(localStorage.getItem("basket")) || [];
+
 const BasketProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(defaultBasket);
 
+  useEffect(() => {
+    localStorage.setItem("basket", JSON.stringify(items));
+  }, [items]);
 
-    const addToBasket = (data, findBasketItem) => {
-        if(!findBasketItem){
-            return setItems((items)=> [data, ...items]);
-        }
-        const filtered = items.filter((item)=> item.id !== findBasketItem.id);
-        setItems(filtered);
-    };
+  const addToBasket = (myProduct, findBasketItem) => {
+    if (!findBasketItem) {
+      return setItems((items) => [...items, myProduct]);
+    }
+    const filtered = items.filter((item) => item.id !== findBasketItem.id);
+    setItems(filtered);
+  };
 
+  const removeFromBasket = (item_id) => {
+    const filtered = items.filter((item) => item.id !== item_id);
+    setItems(filtered);
+  };
+
+  const emptyBasket = () => setItems([]);
 
   const values = {
     items,
     setItems,
-    addToBasket
+    addToBasket,
+    removeFromBasket,
+    emptyBasket
   };
 
   return (

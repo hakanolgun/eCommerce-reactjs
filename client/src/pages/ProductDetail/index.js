@@ -28,12 +28,8 @@ function ProductDetail() {
   });
 
   const myProduct = myProductArray[0];
-
   
-  console.log("data", data);
-  console.log("items", items);
-  
-  const findBasketItem = items[0].find((item) => {
+  const findBasketItem = items.find((item) => {
     return Number(item.id) === Number(product_id);
   });
 
@@ -52,7 +48,7 @@ function ProductDetail() {
 
   return (
     <div className={styles.productDetailContainerDiv}>
-      <Button colorScheme={findBasketItem ? "pink" : "green"} ml="6" onClick={() => addToBasket(data, findBasketItem)}>
+      <Button colorScheme={findBasketItem ? "pink" : "green"} ml="6" onClick={() => addToBasket(myProduct, findBasketItem)}>
         {findBasketItem ? "Remove from basket" : "Add to Basket"}
       </Button>
       <Text as="h2" fontSize="2xl" textAlign="center" marginBlock="10">

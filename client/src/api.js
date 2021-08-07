@@ -34,6 +34,15 @@ export const fetchProduct = async (id) => {
   return data;
 };
 
+export const postProduct = async (input) => {
+	const { data } = await axios.post(
+		`${process.env.REACT_APP_BASE_ENDPOINT}/product/`,
+		input
+	);
+
+	return data;
+};
+
 export const fetchRegister = async (input) => {
   const { data } = await axios.post(
     `${process.env.REACT_APP_BASE_ENDPOINT}/auth/register`,
@@ -42,7 +51,6 @@ export const fetchRegister = async (input) => {
   return data;
 };
 
-
 export const fetchLogin = async (input) => {
   const { data } = await axios.post(
     `${process.env.REACT_APP_BASE_ENDPOINT}/auth/login`,
@@ -50,7 +58,6 @@ export const fetchLogin = async (input) => {
   );
   return data;
 };
-
 
 export const fetchMe = async () => {
   const { data } = await axios.get(
@@ -67,4 +74,36 @@ export const fetchLogout = async () => {
     }
   );
   return data;
+};
+
+export const postOrder = async (input) => {
+	const { data } = await axios.post(
+		`${process.env.REACT_APP_BASE_ENDPOINT}/order`,
+		input
+	);
+
+	return data;
+};
+
+export const fetchOrders = async () => {
+  const {data} = await axios.get(`${process.env.REACT_APP_BASE_ENDPOINT}/order`);
+
+return data;
+}
+
+export const deleteProduct = async (product_id) => {
+	const { data } = await axios.delete(
+		`${process.env.REACT_APP_BASE_ENDPOINT}/product/${product_id}`
+	);
+
+	return data;
+};
+
+export const updateProduct = async (input, product_id) => {
+	const { data } = await axios.put(
+		`${process.env.REACT_APP_BASE_ENDPOINT}/product/${product_id}`,
+		input
+	);
+
+	return data;
 };
